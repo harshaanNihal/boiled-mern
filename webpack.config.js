@@ -7,12 +7,12 @@ module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: [
-    './client/src/index.js',
+    './client/src/index.jsx',
   ],
   module: {
     rules: [
       {
-        test: /\.js?$/,
+        test: /\.(js|jsx|tx|tsx)?$/,
         exclude: /node_modules/,
         use: { loader: 'babel-loader' },
       },
@@ -41,6 +41,9 @@ module.exports = {
     filename: 'bundle.js',
     path: __dirname + '/dist/bundle/',
     publicPath: '/static/'
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

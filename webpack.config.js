@@ -15,14 +15,8 @@ module.exports = {
         use: { loader: 'babel-loader' },
       },
       {
-        test: /\.scss$/,
-        use: [
-          { loader: MiniCssExtractPlugin.loader },
-          {
-            loader: 'css-loader',
-          },
-          { loader: 'sass-loader' },
-        ],
+        test: /\.(scss|css)$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpg|gif)$/,

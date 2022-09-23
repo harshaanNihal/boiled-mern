@@ -1,13 +1,16 @@
-const express = require('express')
+const express = require('express');
 
-const app = express()
+const app = express();
+const path = require('path');
 // const mongoose = require("mongoose");
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const devMiddleware = require('webpack-dev-middleware')
-const path = require('path')
+const cors = require('cors');
 
-const port = 8000
+const port = 8000;
+
+if (process.env.NODE_ENV === 'development') {
+  const devBundle = require('./devBundle');
+  devBundle.compile(app);
+}
 
 // mongoose.connect(
 //  "mongodb://localhost/writer",
@@ -18,34 +21,23 @@ const port = 8000
 //  }
 // )
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.set('views', path.join(__dirname, './server/views'))
-app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, './server/views'));
+app.set('view engine', 'ejs');
 
-if (process.env.NODE_ENV === 'development') {
-  const webpack = require('webpack')
-  const webpackConfig = require('./webpack.config')
-  const compiler = webpack(webpackConfig)
+app.use(cors());
 
-  app.use(
-    devMiddleware(compiler, {
-      // noInfo: true,
-      publicPath: webpackConfig.output.publicPath,
-    })
-  )
-
-  app.use(require('webpack-hot-middleware')(compiler))
-}
-
-app.use(cors())
-
-app.use('/api', require('./server/routes/api'))
-app.use(require('./server/routes/index'))
+app.use('/api', require('./server/routes/api'));
+app.use(require('./server/routes/index'));
 
 app.listen(port, () => {
-  console.log(`server is running on http://localhost:${port}`) // eslint-disable-line no-console
-})
+  console.log(`server is running on http://localhost:${port}`); // eslint-disable-line no-console
+});

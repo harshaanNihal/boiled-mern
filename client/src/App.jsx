@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 
 function App() {
-  return <div className="App">hello</div>;
+  return <h1 className="text-primary text-4xl font-bold">Hello world! I am using React</h1>;
 }
 
 export default App;

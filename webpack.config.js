@@ -12,11 +12,24 @@ module.exports = {
       {
         test: /\.(js|jsx|tx|tsx)?$/,
         exclude: /node_modules/,
-        use: { loader: 'babel-loader' },
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: [
+            '@babel/plugin-proposal-class-properties',
+            'react-hot-loader/babel',
+          ],
+        },
       },
       {
         test: /\.(scss|css)$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.(png|jpg|gif)$/,
